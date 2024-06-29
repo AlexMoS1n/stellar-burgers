@@ -1,13 +1,27 @@
-import { configureStore } from '@reduxjs/toolkit';
-
+import { ThunkAction, ThunkDispatch, thunk } from 'redux-thunk';
+import {
+  burgerIngredientsReducer,
+  burgerIngredientsSlice
+} from './slices/burgerIngredientsSlice';
 import {
   TypedUseSelectorHook,
   useDispatch as dispatchHook,
   useSelector as selectorHook
 } from 'react-redux';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { feedReducer, feedSlice } from './slices/feedSlice';
+import { ordersReducer, ordersSlice } from './slices/ordersSlice';
+import {
+  orderDetailReducer,
+  orderDetailSlice
+} from './slices/orderDetailSlice';
 
-const rootReducer = () => {}; // Заменить на импорт настоящего редьюсера
-
+const rootReducer = combineReducers({
+  [burgerIngredientsSlice.name]: burgerIngredientsReducer,
+  [feedSlice.name]: feedReducer,
+  [ordersSlice.name]: ordersReducer,
+  [orderDetailSlice.name]: orderDetailReducer
+});
 const store = configureStore({
   reducer: rootReducer,
   devTools: process.env.NODE_ENV !== 'production'
