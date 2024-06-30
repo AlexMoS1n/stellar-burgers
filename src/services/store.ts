@@ -9,8 +9,8 @@ import {
   useSelector as selectorHook
 } from 'react-redux';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { feedReducer, feedSlice } from './slices/feedSlice';
-import { ordersReducer, ordersSlice } from './slices/ordersSlice';
+import { feedReducer, feedSliceName } from './slices/feedSlice';
+import { ordersReducer, ordersSliceName } from './slices/ordersSlice';
 import {
   orderDetailReducer,
   orderDetailSlice
@@ -23,8 +23,8 @@ import {
 const rootReducer = combineReducers({
   [burgerIngredientsSliceName]: burgerIngredientsReducer,
   [burgerConstructorSliceName]: burgerConstructorReducer,
-  [feedSlice.name]: feedReducer,
-  [ordersSlice.name]: ordersReducer,
+  [feedSliceName]: feedReducer,
+  [ordersSliceName]: ordersReducer,
   [orderDetailSlice.name]: orderDetailReducer
 });
 const store = configureStore({

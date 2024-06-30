@@ -16,7 +16,7 @@ const fetchOrders = createAsyncThunk('orders/fetchOrders', async () =>
   getOrdersApi()
 );
 
-export const ordersSlice = createSlice({
+const ordersSlice = createSlice({
   name: 'orders',
   initialState,
   reducers: {},
@@ -32,12 +32,12 @@ export const ordersSlice = createSlice({
       .addCase(fetchOrders.fulfilled, (state, action) => {
         state.orders = action.payload;
       })
-      .addCase(fetchOrders.rejected, (state, action) => {
-        state.error =
-          action.error.message || 'Ошибка в получении истории заказов';
+      .addCase(fetchOrders.rejected, (state) => {
+        state.error = 'Ошибка в получении истории заказов';
       });
   }
 });
 
 export const ordersReducer = ordersSlice.reducer;
+export const ordersSliceName = ordersSlice.name;
 export const { getOrders } = ordersSlice.selectors;

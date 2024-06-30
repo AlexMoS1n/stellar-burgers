@@ -38,7 +38,7 @@ const burgerIngredientsSlice = createSlice({
         state.ingredients = action.payload;
         state.isLoading = false;
       })
-      .addCase(fetchBurgerIngredients.rejected, (state, action) => {
+      .addCase(fetchBurgerIngredients.rejected, (state) => {
         state.isLoading = false;
         state.error = 'Ошибка в получении данных о ингридиентах';
       });

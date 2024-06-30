@@ -4,19 +4,15 @@ import { TOrder } from '@utils-types';
 
 export interface IFeedState {
   orders: TOrder[];
-  totalSum: {
-    totalToDay: number | null;
-    totalAllTime: number | null;
-  };
+  total: number | null;
+  totalToday: number | null;
   error: string | null;
 }
 
 const initialState: IFeedState = {
   orders: [],
-  totalSum: {
-    totalToDay: null,
-    totalAllTime: null
-  },
+  total: null,
+  totalToday: null,
   error: null
 };
 
@@ -24,38 +20,42 @@ export const fetchFeed = createAsyncThunk('feed/fetchFeed', async () =>
   getFeedsApi()
 );
 
-export const feedSlice = createSlice({
+const feedSlice = createSlice({
   name: 'feed',
   initialState,
   reducers: {},
   selectors: {
-    getFeed: (state) => state,
-    getOrders: (state) => state.orders,
-    getTotalSum: (state) => state.totalSum
+    getFeedState: (state) => state,
+    getFeedOrders: (state) => state.orders,
+    getTotalSum: (state) => state.total,
+    getTodaySum: (state) => state.totalToday,
+    getErrorFeed: (state) => state.error
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchFeed.pending, (state) => {
         state.orders = [];
-        state.totalSum = {
-          totalToDay: null,
-          totalAllTime: null
-        };
+        state.total = null;
+        state.totalToday = null;
         state.error = null;
       })
       .addCase(fetchFeed.fulfilled, (state, action) => {
         state.orders = action.payload.orders;
-        state.totalSum = {
-          totalToDay: action.payload.totalToday,
-          totalAllTime: action.payload.total
-        };
+        state.total = action.payload.total;
+        state.totalToday = action.payload.totalToday;
       })
-      .addCase(fetchFeed.rejected, (state, action) => {
-        state.error =
-          action.error.message || 'Ошибка в получении ленты заказов';
+      .addCase(fetchFeed.rejected, (state) => {
+        state.error = 'Ошибка в получении ленты заказов';
       });
   }
 });
 
 export const feedReducer = feedSlice.reducer;
-export const { getFeed, getOrders, getTotalSum } = feedSlice.selectors;
+export const {
+  getFeedState,
+  getFeedOrders,
+  getTotalSum,
+  getTodaySum,
+  getErrorFeed
+} = feedSlice.selectors;
+export const feedSliceName = feedSlice.name;
