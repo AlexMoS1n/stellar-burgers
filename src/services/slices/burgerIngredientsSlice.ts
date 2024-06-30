@@ -19,7 +19,7 @@ export const fetchBurgerIngredients = createAsyncThunk(
   async () => getIngredientsApi()
 );
 
-export const burgerIngredientsSlice = createSlice({
+const burgerIngredientsSlice = createSlice({
   name: 'burgerIngredients',
   initialState,
   reducers: {},
@@ -46,5 +46,6 @@ export const burgerIngredientsSlice = createSlice({
 });
 
 export const burgerIngredientsReducer = burgerIngredientsSlice.reducer;
+export const burgerIngredientsSliceName = burgerIngredientsSlice.name;
 export const { getBurgerIngredients, getIsLoading, getBurgerIngredientsError } =
   burgerIngredientsSlice.selectors;

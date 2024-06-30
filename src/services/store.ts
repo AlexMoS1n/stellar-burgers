@@ -1,7 +1,7 @@
 import { ThunkAction, ThunkDispatch, thunk } from 'redux-thunk';
 import {
   burgerIngredientsReducer,
-  burgerIngredientsSlice
+  burgerIngredientsSliceName
 } from './slices/burgerIngredientsSlice';
 import {
   TypedUseSelectorHook,
@@ -15,9 +15,14 @@ import {
   orderDetailReducer,
   orderDetailSlice
 } from './slices/orderDetailSlice';
+import {
+  burgerConstructorReducer,
+  burgerConstructorSliceName
+} from './slices/burgerConstructorSlice';
 
 const rootReducer = combineReducers({
-  [burgerIngredientsSlice.name]: burgerIngredientsReducer,
+  [burgerIngredientsSliceName]: burgerIngredientsReducer,
+  [burgerConstructorSliceName]: burgerConstructorReducer,
   [feedSlice.name]: feedReducer,
   [ordersSlice.name]: ordersReducer,
   [orderDetailSlice.name]: orderDetailReducer
