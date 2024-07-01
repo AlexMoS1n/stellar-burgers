@@ -1,4 +1,4 @@
-import { orderBurgerApi } from '@api';
+import { getOrderByNumberApi } from '@api';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { TOrder } from '@utils-types';
 
@@ -12,15 +12,22 @@ export const initialState: IOrderDetailState = {
   error: null
 };
 
-const fetchDetailOrder = createAsyncThunk(
+export const fetchDetailOrder = createAsyncThunk(
   'orderDetail/fetchDetailOrder',
-  async (id: string[]) => orderBurgerApi(id)
+  async (numberOrder: number, { dispatch }) => {
+    dispatch(clearOrderState());
+    return getOrderByNumberApi(numberOrder);
+  }
 );
 
-export const orderDetailSlice = createSlice({
+const orderDetailSlice = createSlice({
   name: 'orderDetail',
   initialState,
-  reducers: {},
+  reducers: {
+    clearOrderState: (state) => {
+      state.order = null;
+    }
+  },
   selectors: {
     getOrder: (state) => state.order
   },
@@ -30,14 +37,15 @@ export const orderDetailSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchDetailOrder.fulfilled, (state, action) => {
-        state.order = action.payload.order;
+        state.order = action.payload.orders[0];
       })
       .addCase(fetchDetailOrder.rejected, (state, action) => {
-        state.error =
-          action.error.message || 'Ошибка в получении данных заказа';
+        state.error = 'Ошибка в получении данных заказа';
       });
   }
 });
 
+export const { clearOrderState } = orderDetailSlice.actions;
 export const orderDetailReducer = orderDetailSlice.reducer;
+export const orderDetailName = orderDetailSlice.name;
 export const { getOrder } = orderDetailSlice.selectors;

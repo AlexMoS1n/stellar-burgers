@@ -10,11 +10,7 @@ import {
 } from 'react-redux';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { feedReducer, feedSliceName } from './slices/feedSlice';
-import { ordersReducer, ordersSliceName } from './slices/ordersSlice';
-import {
-  orderDetailReducer,
-  orderDetailSlice
-} from './slices/orderDetailSlice';
+import { orderDetailName, orderDetailReducer } from './slices/orderDetailSlice';
 import {
   burgerConstructorReducer,
   burgerConstructorSliceName
@@ -24,8 +20,7 @@ const rootReducer = combineReducers({
   [burgerIngredientsSliceName]: burgerIngredientsReducer,
   [burgerConstructorSliceName]: burgerConstructorReducer,
   [feedSliceName]: feedReducer,
-  [ordersSliceName]: ordersReducer,
-  [orderDetailSlice.name]: orderDetailReducer
+  [orderDetailName]: orderDetailReducer
 });
 const store = configureStore({
   reducer: rootReducer,

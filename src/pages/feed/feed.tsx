@@ -8,6 +8,7 @@ import {
   getErrorFeed,
   getFeedOrders
 } from '../../services/slices/feedSlice';
+import { Outlet } from 'react-router-dom';
 
 export const Feed: FC = () => {
   const dispatch = useDispatch();
@@ -27,11 +28,14 @@ export const Feed: FC = () => {
   }
 
   return (
-    <FeedUI
-      orders={orders}
-      handleGetFeeds={() => {
-        dispatch(fetchFeed());
-      }}
-    />
+    <>
+      <FeedUI
+        orders={orders}
+        handleGetFeeds={() => {
+          dispatch(fetchFeed());
+        }}
+      />
+      <Outlet />
+    </>
   );
 };
