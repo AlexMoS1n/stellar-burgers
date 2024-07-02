@@ -14,7 +14,7 @@ import {
   ProfileOrders,
   NotFound404
 } from '@pages';
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { useDispatch } from '../../services/store';
 import { fetchBurgerIngredients } from '../../services/slices/burgerIngredientsSlice';
 

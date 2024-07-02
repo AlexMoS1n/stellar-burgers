@@ -7,7 +7,7 @@ interface IOrderDetailState {
   error: string | null;
 }
 
-export const initialState: IOrderDetailState = {
+const initialState: IOrderDetailState = {
   order: null,
   error: null
 };
