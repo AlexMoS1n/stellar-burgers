@@ -1,7 +1,7 @@
 import { TLoginData, TRegisterData, forgotPasswordApi, getUserApi, loginUserApi, logoutApi, registerUserApi, resetPasswordApi, updateUserApi } from "@api";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { TUser } from "@utils-types";
-import { getCookie, setCookie } from "src/utils/cookie";
+import { deleteCookie, getCookie, setCookie } from "src/utils/cookie";
 
 export const fetchGetUser = createAsyncThunk('authUser/fetchGetUser', async => getUserApi());
 
@@ -71,6 +71,8 @@ loginUserRequest: boolean;
 errorRegistration: string|null;
 errorLogin: string|null;
 errorUpdate: string|null;
+errorLogout: string|null;
+
 };
 
 const initialState:IAuthUser = {
@@ -79,7 +81,8 @@ const initialState:IAuthUser = {
     loginUserRequest: false,
     errorRegistration: null,
     errorLogin: null,
-    errorUpdate: null
+    errorUpdate: null,
+    errorLogout: null
 }
 
 const authUserSlice = createSlice({
@@ -102,6 +105,7 @@ const authUserSlice = createSlice({
         builder
             .addCase(fetchLoginUser.pending, (state)=>{
                 state.loginUserRequest = true;
+                state.errorLogin = null;
             })
             .addCase(fetchLoginUser.fulfilled, (state, action) => {
                 state.userData=action.payload;
@@ -109,13 +113,53 @@ const authUserSlice = createSlice({
                 state.loginUserRequest = false;
                 state.errorLogin=null
             })
-            .addCase(fetchLoginUser.rejected, (state, action) => {
+            .addCase(fetchLoginUser.rejected, (state) => {
                 state.isAuthChecked=true;
                 state.errorLogin='Ошибка в получении доступа к личному кабинету';
-            }
-        )
+                state.loginUserRequest=false;
+            })
+            .addCase(fetchRegisterUser.pending, (state) =>{
+                state.loginUserRequest = true;
+                state.errorRegistration = null;
+            })
+            .addCase(fetchRegisterUser.fulfilled, (state, action)=>{
+                state.userData = action.payload;
+                state.loginUserRequest = false;
+            })
+            .addCase(fetchRegisterUser.rejected, (state)=>{
+                state.errorRegistration='Ошибка в регистристрации пользователя';
+                state.loginUserRequest = false;
+            })
+            .addCase(fetchLogoutUser.pending, (state) => { 
+                state.loginUserRequest = true;
+                state.errorLogout = null;
+            })
+            .addCase(fetchLogoutUser.fulfilled, (state) => { 
+                    state.loginUserRequest = false;
+                    state.userData=null;
+                    localStorage.clear();
+                    deleteCookie('accessToken');
+                })
+            .addCase(fetchLogoutUser.rejected, (state) => { 
+                state.loginUserRequest = false;
+                state.errorLogout = 'Ошибка выхода из аккаунта пользователя';
+            })
+            .addCase(fetchUpdateUser.pending, (state)=>{
+                state.loginUserRequest=true;
+                state.userData =null
+            })
+            .addCase(fetchUpdateUser.fulfilled, (state, action)=>{
+                state.loginUserRequest=false;
+                state.userData=action.payload.user;
+            })
+            .addCase(fetchUpdateUser.rejected, (state)=>{
+                state.loginUserRequest=false;
+                state.errorUpdate='Ошибка в обновлении данных пользователя'
+            })
 
-    }
+    }   
 });
 
+export const authUserReducer = authUserSlice.reducer
+export const { getUserData, getAuthChecked, getLoginUserRequest, getErrorRegistration, getErrorLogin, getUpdateError}  = authUserSlice.selectors
 export const {authChecked} = authUserSlice.actions
