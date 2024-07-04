@@ -1,4 +1,5 @@
-# Проектная работа 11-го спринта
+# Выполнение проектной работы к 11 спринту Мосиным Александром Сегеевичем :guardsman:
+[Ссылка на репозиторий](https://github.com/AlexMoS1n/stellar-burgers.git)
 
 [Макет](<https://www.figma.com/file/vIywAvqfkOIRWGOkfOnReY/React-Fullstack_-Проектные-задачи-(3-месяца)_external_link?type=design&node-id=0-1&mode=design>)
 
