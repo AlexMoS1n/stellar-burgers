@@ -66,7 +66,6 @@ export const fetchLogoutUser = createAsyncThunk(
   async () => logoutApi()
 );
 
-//Хоть в текущем проекте и не нужна реализация перезапись пароля и его сброс, т.к. реализация имеется в starter ui kit, для последующего улучшения проекта я добавил
 export const fetchForgotPassword = createAsyncThunk(
   'authUser/fetchForgotPassword',
   async (data: { email: string }) => forgotPasswordApi(data)
