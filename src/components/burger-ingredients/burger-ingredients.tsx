@@ -61,24 +61,25 @@ export const BurgerIngredients: FC = () => {
 
   return (
     <>
-      {burgerIngredientsError && (
+      {burgerIngredientsError ? (
         <p style={{ color: 'var(--colors-interface-error)' }}>
           {burgerIngredientsError}
         </p>
+      ) : (
+        <BurgerIngredientsUI
+          currentTab={currentTab}
+          buns={buns}
+          mains={mains}
+          sauces={sauces}
+          titleBunRef={titleBunRef}
+          titleMainRef={titleMainRef}
+          titleSaucesRef={titleSaucesRef}
+          bunsRef={bunsRef}
+          mainsRef={mainsRef}
+          saucesRef={saucesRef}
+          onTabClick={onTabClick}
+        />
       )}
-      <BurgerIngredientsUI
-        currentTab={currentTab}
-        buns={buns}
-        mains={mains}
-        sauces={sauces}
-        titleBunRef={titleBunRef}
-        titleMainRef={titleMainRef}
-        titleSaucesRef={titleSaucesRef}
-        bunsRef={bunsRef}
-        mainsRef={mainsRef}
-        saucesRef={saucesRef}
-        onTabClick={onTabClick}
-      />
     </>
   );
 };

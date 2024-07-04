@@ -61,6 +61,12 @@ export const fetchUpdateUser = createAsyncThunk(
   async (user: Partial<TRegisterData>) => updateUserApi(user)
 );
 
+export const fetchLogoutUser = createAsyncThunk(
+  'authUser/fetchLogoutUser',
+  async () => logoutApi()
+);
+
+//Хоть в текущем проекте и не нужна реализация перезапись пароля и его сброс, т.к. реализация имеется в starter ui kit, для последующего улучшения проекта я добавил
 export const fetchForgotPassword = createAsyncThunk(
   'authUser/fetchForgotPassword',
   async (data: { email: string }) => forgotPasswordApi(data)
@@ -69,11 +75,6 @@ export const fetchForgotPassword = createAsyncThunk(
 export const fetchResetPassword = createAsyncThunk(
   'authUser/fetchResetPassword',
   async (data: { password: string; token: string }) => resetPasswordApi(data)
-);
-
-export const fetchLogoutUser = createAsyncThunk(
-  'authUser/fetchLogoutUser',
-  async () => logoutApi()
 );
 
 interface IAuthUser {

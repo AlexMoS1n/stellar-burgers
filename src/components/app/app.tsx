@@ -19,6 +19,7 @@ import { useDispatch } from '../../services/store';
 import { fetchBurgerIngredients } from '../../services/slices/burgerIngredientsSlice';
 import { ProtectedRoute } from '../protected-route';
 import { checkUserAuth } from '../../services/slices/authUserSlice';
+import { PageShowComponent } from '../../pages/page-show-component/page-show-component';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -74,21 +75,43 @@ const App = () => {
                 <Profile />
               </ProtectedRoute>
             }
-          >
-            <Route
-              path='orders'
-              element={
-                <ProtectedRoute>
-                  <ProfileOrders />
-                </ProtectedRoute>
-              }
-            />
-          </Route>
+          />
+          <Route
+            path='profile/orders'
+            element={
+              <ProtectedRoute>
+                <ProfileOrders />
+              </ProtectedRoute>
+            }
+          />
           <Route path='*' element={<NotFound404 />} />
+          <Route
+            path='/feed/:number'
+            element={
+              <PageShowComponent title='Детали заказа'>
+                <OrderInfo />
+              </PageShowComponent>
+            }
+          />
+          <Route
+            path='/ingredients/:id'
+            element={
+              <PageShowComponent title='Детали ингридиента'>
+                <IngredientDetails />
+              </PageShowComponent>
+            }
+          />
+          <Route
+            path='/profile/orders/:number'
+            element={
+              <ProtectedRoute>
+                <PageShowComponent title='Детали заказа'>
+                  <OrderInfo />
+                </PageShowComponent>
+              </ProtectedRoute>
+            }
+          />
         </Route>
-        <Route path='/feed/:number' element={<OrderInfo />} />
-        <Route path='/ingredients/:id' element={<IngredientDetails />} />
-        <Route path='/profile/orders/:number' element={<OrderInfo />} />
       </Routes>
       {backgroundLocation && (
         <Routes>
@@ -114,12 +137,14 @@ const App = () => {
           <Route
             path='/profile/orders/:number'
             element={
-              <Modal
-                title='Информация о заказе'
-                onClose={() => navigate('/profile/orders')}
-              >
-                <OrderInfo />
-              </Modal>
+              <ProtectedRoute>
+                <Modal
+                  title='Информация о заказе'
+                  onClose={() => navigate('/profile/orders')}
+                >
+                  <OrderInfo />
+                </Modal>
+              </ProtectedRoute>
             }
           />
         </Routes>

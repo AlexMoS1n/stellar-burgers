@@ -16,13 +16,15 @@ import {
   burgerConstructorSliceName
 } from './slices/burgerConstructorSlice';
 import { authUserReducer, authUserSliceName } from './slices/authUserSlice';
+import { ordersReducer, ordersSliceName } from './slices/userOrdersSlice';
 
 const rootReducer = combineReducers({
   [burgerIngredientsSliceName]: burgerIngredientsReducer,
   [burgerConstructorSliceName]: burgerConstructorReducer,
   [feedSliceName]: feedReducer,
   [orderDetailName]: orderDetailReducer,
-  [authUserSliceName]: authUserReducer
+  [authUserSliceName]: authUserReducer,
+  [ordersSliceName]: ordersReducer
 });
 const store = configureStore({
   reducer: rootReducer,
