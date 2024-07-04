@@ -2,13 +2,13 @@ import { getIngredientsApi } from '@api';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { TIngredient } from '@utils-types';
 
-interface IBurgerIngredietnsState {
+interface IBurgerIngredientsState {
   ingredients: TIngredient[];
   isLoading: boolean;
   error: string | null;
 }
 
-const initialState: IBurgerIngredietnsState = {
+const initialState: IBurgerIngredientsState = {
   ingredients: [],
   isLoading: false,
   error: null

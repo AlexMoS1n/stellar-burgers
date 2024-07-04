@@ -34,7 +34,7 @@ const burgerConstructorSlice = createSlice({
         (item) => item.id !== action.payload
       );
     },
-    clearBurgerConstructorConstructor: (state) => {
+    clearBurgerConstructor: (state) => {
       state = initialState;
     },
     changeIngredientLayer: (state, action) => {
@@ -54,7 +54,7 @@ export const burgerConstructorSliceName = burgerConstructorSlice.name;
 export const {
   addIngredientToBurgerConstructor,
   deleteIngredientFromBurgerConstructor,
-  clearBurgerConstructorConstructor,
+  clearBurgerConstructor,
   changeIngredientLayer
 } = burgerConstructorSlice.actions;
 export const { getIngredientsFromBurgerConstructor } =
