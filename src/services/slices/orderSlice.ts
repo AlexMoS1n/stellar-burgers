@@ -1,4 +1,4 @@
-import { getOrderByNumberApi, orderBurgerApi } from '@api';
+import { getOrderByNumberApi, orderBurgerApi } from '../../utils/burger-api';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { TOrder } from '@utils-types';
 
@@ -19,14 +19,14 @@ export const fetchCreateOrder = createAsyncThunk(
   }
 );
 
-interface IOrderDetailState {
+export interface IOrderDetailState {
   order: TOrder | null;
   orderRequest: boolean;
   errorDetailOrder: string | null;
   errorCreateOrder: string | null;
 }
 
-const initialState: IOrderDetailState = {
+export const initialState: IOrderDetailState = {
   order: null,
   orderRequest: false,
   errorDetailOrder: null,
@@ -55,7 +55,7 @@ const orderSlice = createSlice({
         state.order = action.payload.orders[0];
         state.orderRequest = false;
       })
-      .addCase(fetchDetailOrder.rejected, (state, action) => {
+      .addCase(fetchDetailOrder.rejected, (state) => {
         state.errorDetailOrder = 'Ошибка в получении данных заказа';
         state.orderRequest = false;
       })
@@ -67,7 +67,7 @@ const orderSlice = createSlice({
         state.order = action.payload.order;
         state.orderRequest = false;
       })
-      .addCase(fetchCreateOrder.rejected, (state, action) => {
+      .addCase(fetchCreateOrder.rejected, (state) => {
         state.errorCreateOrder = 'Ошибка в создании заказа';
         state.orderRequest = false;
       });

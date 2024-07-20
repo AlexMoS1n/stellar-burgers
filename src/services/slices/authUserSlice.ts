@@ -8,7 +8,7 @@ import {
   registerUserApi,
   resetPasswordApi,
   updateUserApi
-} from '@api';
+} from '../../utils/burger-api';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { TUser } from '@utils-types';
 import { deleteCookie, getCookie, setCookie } from '../../utils/cookie';
@@ -86,7 +86,7 @@ interface IAuthUser {
   errorLogout: string | null;
 }
 
-const initialState: IAuthUser = {
+export const initialState: IAuthUser = {
   userData: null,
   isAuthChecked: false,
   loginUserRequest: false,
@@ -125,7 +125,7 @@ const authUserSlice = createSlice({
         state.errorLogin = null;
       })
       .addCase(fetchLoginUser.rejected, (state) => {
-        state.isAuthChecked = true;
+        state.isAuthChecked = false;
         state.errorLogin = 'Ошибка в получении доступа к личному кабинету';
         state.loginUserRequest = false;
       })
@@ -135,6 +135,7 @@ const authUserSlice = createSlice({
       })
       .addCase(fetchRegisterUser.fulfilled, (state, action) => {
         state.userData = action.payload;
+        state.isAuthChecked = true;
         state.loginUserRequest = false;
       })
       .addCase(fetchRegisterUser.rejected, (state) => {
@@ -162,6 +163,7 @@ const authUserSlice = createSlice({
       })
       .addCase(fetchUpdateUser.fulfilled, (state, action) => {
         state.loginUserRequest = false;
+        state.isAuthChecked = true;
         state.userData = action.payload.user;
       })
       .addCase(fetchUpdateUser.rejected, (state) => {

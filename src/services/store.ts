@@ -1,31 +1,12 @@
 import { ThunkAction, ThunkDispatch, thunk } from 'redux-thunk';
 import {
-  burgerIngredientsReducer,
-  burgerIngredientsSliceName
-} from './slices/burgerIngredientsSlice';
-import {
   TypedUseSelectorHook,
   useDispatch as dispatchHook,
   useSelector as selectorHook
 } from 'react-redux';
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { feedReducer, feedSliceName } from './slices/feedSlice';
-import { orderDetailName, orderDetailReducer } from './slices/orderSlice';
-import {
-  burgerConstructorReducer,
-  burgerConstructorSliceName
-} from './slices/burgerConstructorSlice';
-import { authUserReducer, authUserSliceName } from './slices/authUserSlice';
-import { ordersReducer, ordersSliceName } from './slices/userOrdersSlice';
+import { configureStore } from '@reduxjs/toolkit';
+import { rootReducer } from './rootReducer';
 
-const rootReducer = combineReducers({
-  [burgerIngredientsSliceName]: burgerIngredientsReducer,
-  [burgerConstructorSliceName]: burgerConstructorReducer,
-  [feedSliceName]: feedReducer,
-  [orderDetailName]: orderDetailReducer,
-  [authUserSliceName]: authUserReducer,
-  [ordersSliceName]: ordersReducer
-});
 const store = configureStore({
   reducer: rootReducer,
   devTools: process.env.NODE_ENV !== 'production'
