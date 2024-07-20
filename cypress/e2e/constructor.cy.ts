@@ -11,7 +11,16 @@ beforeEach(function () {
 });
 
 describe('Проверка работы с конструктором', function () {
+  beforeEach(function () {
+    //В этом сборнике тестов, также добавил проверку на отсутсвие модального окна
+    cy.get('#modals').should('be.empty');
+  });
   it('проверка добавления булки', function () {
+    // Перед добавлением конкретной булки проверим ее отсутсвие в конструкторе
+    cy.get('[data-cy="constructor-section"]')
+      .contains('Краторная булка N-200i')
+      .should('not.exist');
+    //Добавим булку путем клика по соответсвующей кнопке "Добавить"
     cy.get('h3')
       .contains('Булки')
       .next('ul')
@@ -19,9 +28,16 @@ describe('Проверка работы с конструктором', function
       .first()
       .contains('Добавить')
       .click();
-    cy.get('div').contains('Выберите булки').should('not.exist');
+    // Теперь убедимся, что конкретная булка добавилась способом из начала теста
+    cy.get('[data-cy="constructor-section"]')
+      .contains('Краторная булка N-200i')
+      .should('exist');
   });
+  // Процессы добавления и проверки начинки и сосуса схожи из теста с булкой
   it('проверка добавления начинки', function () {
+    cy.get('[data-cy="constructor-section"]')
+      .contains('Биокотлета из марсианской Магнолии')
+      .should('not.exist');
     cy.get('h3')
       .contains('Начинки')
       .next('ul')
@@ -29,9 +45,14 @@ describe('Проверка работы с конструктором', function
       .first()
       .contains('Добавить')
       .click();
-    cy.get('div').contains('Выберите начинку').should('not.exist');
+    cy.get('[data-cy="constructor-section"]')
+      .contains('Биокотлета из марсианской Магнолии')
+      .should('exist');
   });
   it('проверка добавления соуса', function () {
+    cy.get('[data-cy="constructor-section"]')
+      .contains('Соус Spicy-X')
+      .should('not.exist');
     cy.get('h3')
       .contains('Соусы')
       .next('ul')
@@ -39,12 +60,17 @@ describe('Проверка работы с конструктором', function
       .first()
       .contains('Добавить')
       .click();
-    cy.get('div').contains('Выберите начинку').should('not.exist');
+    cy.get('[data-cy="constructor-section"]')
+      .contains('Соус Spicy-X')
+      .should('exist');
   });
 });
 
 describe('Проверка работы модальных окон', function () {
   beforeEach(function () {
+    //Перед началом проверим, что модальное окно еще не открыто
+    cy.get('#modals').should('be.empty');
+    //Теперь открываем модальное окно
     cy.get('ul').find('[href^="/ingredients"]').first().click();
   });
   it('проверка открытия модального окна ингридиента и его содержимого', function () {
@@ -99,6 +125,7 @@ describe('Проверка работы модальных окон', function (
 describe('Проверка оформления заказа', function () {
   beforeEach(function () {
     cy.intercept('POST', 'api/orders', { fixture: 'order.json' }).as('order');
+    cy.get('#modals').should('be.empty');
   });
   it('Проверка авторизации пользователя перед каждым тестом', function () {
     cy.get('p').contains('John Travolta').should('exist');
@@ -106,6 +133,9 @@ describe('Проверка оформления заказа', function () {
 
   it('проверка процесса добавление ингридиентов для заказа и его оформление', function () {
     //добавление в заказ булки
+    cy.get('[data-cy="constructor-section"]')
+      .contains('Краторная булка N-200i')
+      .should('not.exist');
     cy.get('h3')
       .contains('Булки')
       .next('ul')
@@ -113,8 +143,14 @@ describe('Проверка оформления заказа', function () {
       .first()
       .contains('Добавить')
       .click();
+    cy.get('[data-cy="constructor-section"]')
+      .contains('Краторная булка N-200i')
+      .should('exist');
 
     //добавление в заказ начинки
+    cy.get('[data-cy="constructor-section"]')
+      .contains('Биокотлета из марсианской Магнолии')
+      .should('not.exist');
     cy.get('h3')
       .contains('Начинки')
       .next('ul')
@@ -122,8 +158,14 @@ describe('Проверка оформления заказа', function () {
       .first()
       .contains('Добавить')
       .click();
+    cy.get('[data-cy="constructor-section"]')
+      .contains('Биокотлета из марсианской Магнолии')
+      .should('exist');
 
     //добавим дополнительно соус
+    cy.get('[data-cy="constructor-section"]')
+      .contains('Соус Spicy-X')
+      .should('not.exist');
     cy.get('h3')
       .contains('Соусы')
       .next('ul')
@@ -131,6 +173,9 @@ describe('Проверка оформления заказа', function () {
       .first()
       .contains('Добавить')
       .click();
+    cy.get('[data-cy="constructor-section"]')
+      .contains('Соус Spicy-X')
+      .should('exist');
 
     //Проверим, что нет пустых полей для создания бургера в конструкторе
     cy.get('div').contains('Выберите булки').should('not.exist');
