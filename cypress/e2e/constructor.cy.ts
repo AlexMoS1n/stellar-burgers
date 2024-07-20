@@ -8,13 +8,11 @@ beforeEach(function () {
   localStorage.setItem('refreshToken', 'mockRefreshTokenForJohnT');
   cy.visit('/');
   cy.wait(['@ingredients', '@user']);
+  //Т.к. во всех действующих тестах требуется отсутствие модального окна изначально, то соответствующую проверку добавим в beforeEach()
+  cy.get('#modals').should('be.empty');
 });
 
 describe('Проверка работы с конструктором', function () {
-  beforeEach(function () {
-    //В этом сборнике тестов, также добавил проверку на отсутсвие модального окна
-    cy.get('#modals').should('be.empty');
-  });
   it('проверка добавления булки', function () {
     // Перед добавлением конкретной булки проверим ее отсутсвие в конструкторе
     cy.get('[data-cy="constructor-section"]')
@@ -68,9 +66,7 @@ describe('Проверка работы с конструктором', function
 
 describe('Проверка работы модальных окон', function () {
   beforeEach(function () {
-    //Перед началом проверим, что модальное окно еще не открыто
-    cy.get('#modals').should('be.empty');
-    //Теперь открываем модальное окно
+    //Открываем модальное окно ингридиента
     cy.get('ul').find('[href^="/ingredients"]').first().click();
   });
   it('проверка открытия модального окна ингридиента и его содержимого', function () {
