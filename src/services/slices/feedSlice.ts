@@ -1,15 +1,15 @@
-import { getFeedsApi } from '@api';
+import { getFeedsApi } from '../../utils/burger-api';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { TOrder } from '@utils-types';
 
-export interface IFeedState {
+interface IFeedState {
   orders: TOrder[];
   total: number | null;
   totalToday: number | null;
   error: string | null;
 }
 
-const initialState: IFeedState = {
+export const initialState: IFeedState = {
   orders: [],
   total: null,
   totalToday: null,

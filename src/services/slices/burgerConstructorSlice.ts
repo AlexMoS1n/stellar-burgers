@@ -7,7 +7,7 @@ interface IBurgerConstructorState {
   bun: TConstructorIngredient | null;
 }
 
-const initialState: IBurgerConstructorState = {
+export const initialState: IBurgerConstructorState = {
   ingredients: [],
   bun: null
 };
@@ -34,9 +34,7 @@ const burgerConstructorSlice = createSlice({
         (item) => item.id !== action.payload
       );
     },
-    clearBurgerConstructor: (state) => {
-      state = initialState;
-    },
+    clearBurgerConstructor: () => initialState,
     changeIngredientLayer: (state, action) => {
       const initialElement = state.ingredients[action.payload.initialIndex];
       state.ingredients[action.payload.initialIndex] =
