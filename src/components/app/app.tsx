@@ -20,6 +20,7 @@ import { fetchBurgerIngredients } from '../../services/slices/burgerIngredientsS
 import { ProtectedRoute } from '../protected-route';
 import { checkUserAuth } from '../../services/slices/authUserSlice';
 import { PageShowComponent } from '../../pages/page-show-component/page-show-component';
+import { clearOrderState } from '../../services/slices/orderSlice';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -120,7 +121,10 @@ const App = () => {
             element={
               <Modal
                 title='Информация о заказе'
-                onClose={() => navigate('/feed')}
+                onClose={() => {
+                  navigate('/feed');
+                  dispatch(clearOrderState());
+                }}
               >
                 <OrderInfo />
               </Modal>
@@ -129,7 +133,13 @@ const App = () => {
           <Route
             path='/ingredients/:id'
             element={
-              <Modal title='Детали ингредиента' onClose={() => navigate('/')}>
+              <Modal
+                title='Детали ингредиента'
+                onClose={() => {
+                  navigate('/');
+                  dispatch(clearOrderState());
+                }}
+              >
                 <IngredientDetails />
               </Modal>
             }
@@ -140,7 +150,10 @@ const App = () => {
               <ProtectedRoute>
                 <Modal
                   title='Информация о заказе'
-                  onClose={() => navigate('/profile/orders')}
+                  onClose={() => {
+                    navigate('/profile/orders');
+                    dispatch(clearOrderState());
+                  }}
                 >
                   <OrderInfo />
                 </Modal>
