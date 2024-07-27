@@ -12,6 +12,11 @@ beforeEach(function () {
   cy.get('#modals').should('be.empty');
 });
 
+afterEach(function () {
+  cy.clearCookies();
+  cy.clearLocalStorage();
+});
+
 describe('Проверка работы с конструктором', function () {
   it('проверка добавления булки', function () {
     // Перед добавлением конкретной булки проверим ее отсутсвие в конструкторе
